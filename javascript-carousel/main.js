@@ -6,6 +6,11 @@ var currentCarouselItem = 0;
 var $previousIcon = document.querySelector('.fa-thin.fa-angle-left');
 // query select next icon
 var $nextIcon = document.querySelector('.fa-thin.fa-angle-right');
+
+// 3 second timer
+var timer = setInterval($handleNextIcon, 3000);
+// new 3 second timer after reset
+// var newTimer = setInterval($handleNextIcon, 3000);
 // create and click event listener function to check the  previous icon click event fires
 $previousIcon.addEventListener('click', $handlePreviousIcon);
 // query parent container of all i elements
@@ -18,7 +23,9 @@ function $handlePreviousIcon(event) {
   }
   $img.setAttribute('src', poke[currentCarouselItem].img);
   $iContainerChildren[currentCarouselItem].setAttribute('class', 'fa-solid fa-circle margin-right');
+  resetTimer();
 }
+
 // create and click event listener function to check the next icon click event fires
 $nextIcon.addEventListener('click', $handleNextIcon);
 
@@ -38,6 +45,7 @@ function $handleNextIcon(event) {
   }
   $img.setAttribute('src', poke[currentCarouselItem].img);
   $iContainerChildren[currentCarouselItem].setAttribute('class', 'fa-solid fa-circle margin-right');
+  resetTimer();
 }
 
 // create an array consisting objects that contain properties for the image file paths amd methods
@@ -80,6 +88,7 @@ function $handleSpecificIcon(specificItem) {
   currentCarouselItem = specificItem;
   $img.setAttribute('src', poke[currentCarouselItem].img);
   $iContainerChildren[currentCarouselItem].setAttribute('class', 'fa-solid fa-circle margin-right');
+  resetTimer();
 }
 
 var $iContainer = document.getElementById('progress-container');
@@ -90,7 +99,12 @@ for (var i = 0; i < $iContainerChildren.length; i++) {
 }
 
 var autoNext = function () {
-  setInterval($handleNextIcon, 3000);
+  timer();
 };
 
 window.addEventListener('load', autoNext);
+
+function resetTimer() {
+  clearInterval(timer);
+  timer = setInterval($handleNextIcon, 3000);
+}
